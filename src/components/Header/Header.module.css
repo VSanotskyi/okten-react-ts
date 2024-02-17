@@ -1,0 +1,28 @@
+.header {
+    border-bottom: 1px solid black;
+}
+
+.list {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+    width: auto;
+    height: 50px;
+    padding: 20px;
+    list-style: none;
+}
+
+.link {
+    font-size: 24px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.link:hover {
+    color: blue;
+}
+
+.header a[class='active'] {
+    color: red;
+}
