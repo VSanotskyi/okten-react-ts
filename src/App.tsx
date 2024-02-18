@@ -1,9 +1,9 @@
-import CarPage from './components/CarPage';
+import CarContainer from './components/CarContainer';
 
 const App = () => {
     return (
         <div>
-            <CarPage/>
+            <CarContainer/>
         </div>
     );
 };
