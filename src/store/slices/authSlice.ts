@@ -40,6 +40,19 @@ const loginThunk = createAsyncThunk<IUser, { user: IAuth }>(
     },
 );
 
+const meThunk = createAsyncThunk<IUser, void>(
+    'authSlice/me',
+    async (_, {rejectWithValue}) => {
+        try {
+            const {data} = await authService.me();
+            return data;
+        } catch (error) {
+            const e = error as AxiosError;
+            return rejectWithValue(e.response.data);
+        }
+    },
+);
+
 const authSlice = createSlice({
     name: 'authSlice',
     initialState,
@@ -55,6 +68,9 @@ const authSlice = createSlice({
             .addCase(loginThunk.rejected, (state) => {
                 state.loginError = 'Name or password error';
             })
+            .addCase(meThunk.fulfilled, (state, {payload}) => {
+                state.currentUser = payload;
+            })
             .addMatcher(isFulfilled(registerThunk, loginThunk), state => {
                 state.registerError = null;
                 state.loginError = null;
@@ -68,4 +84,5 @@ export {
     authReducer,
     registerThunk,
     loginThunk,
+    meThunk,
 };
