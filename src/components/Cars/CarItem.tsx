@@ -3,6 +3,7 @@ import {FC, PropsWithChildren} from 'react';
 import {carForUpdateAction} from '../../store/slice/carSlice';
 import {useAppDispatch} from '../../hooks';
 import {ICar} from '../../interfaces';
+import {deleteCarThunk} from '../../store';
 
 interface IProps extends PropsWithChildren {
     car: ICar;
@@ -14,7 +15,7 @@ const CarItem: FC<IProps> = ({car}) => {
     const {id, year, brand, price} = car;
 
     const handleDelete = () => {
-
+        dispatch(deleteCarThunk({id}));
     };
 
     const handleUpdate = () => {

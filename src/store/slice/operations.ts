@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AxiosError} from 'axios';
 
-import {createCar, getAll} from '../../services';
+import {createCar, delById, getAll, updateById} from '../../services';
 import {ICar} from '../../interfaces';
 
 const getCarsThunk = createAsyncThunk<ICar[], void>(
@@ -28,7 +28,34 @@ const createCarThunk = createAsyncThunk<void, { car: ICar }>(
     },
 );
 
+const updateCarThunk = createAsyncThunk<void, { car: ICar, id: number }>(
+    'carSlice/update',
+    async ({car, id}, {rejectWithValue}) => {
+        try {
+            console.log(car);
+            await updateById(id, car);
+        } catch (error) {
+            const e = error as AxiosError;
+            return rejectWithValue(e.message);
+        }
+    },
+);
+
+const deleteCarThunk = createAsyncThunk<void, { id: number }>(
+    'carSlice/delete',
+    async ({id}, {rejectWithValue}) => {
+        try {
+            await delById(id);
+        } catch (error) {
+            const e = error as AxiosError;
+            return rejectWithValue(e.message);
+        }
+    },
+);
+
 export {
     getCarsThunk,
     createCarThunk,
+    updateCarThunk,
+    deleteCarThunk,
 };

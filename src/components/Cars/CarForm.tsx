@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 
-import {createCarThunk, selectCarForUpdate} from '../../store';
+import {createCarThunk, selectCarForUpdate, updateCarThunk} from '../../store';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {ICar} from '../../interfaces';
 
@@ -16,6 +16,11 @@ const CarForm = () => {
         reset();
     };
 
+    const handleUpdateCar: SubmitHandler<ICar> = (car) => {
+        dispatch(updateCarThunk({car, id: carForUpdate.id}));
+        reset();
+    };
+
     useEffect(() => {
         if (carForUpdate) {
             setValue('brand', carForUpdate.brand);
@@ -25,7 +30,7 @@ const CarForm = () => {
     }, [carForUpdate, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(handleAddCar)}>
+        <form onSubmit={carForUpdate ? handleSubmit(handleUpdateCar) : handleSubmit(handleAddCar)}>
             <input type="text"
                    placeholder={'brand'} {...register('brand')} />
             <input type="text"

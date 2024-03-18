@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {ICar} from '../../interfaces';
-import {createCarThunk, getCarsThunk} from './operations';
+import {createCarThunk, deleteCarThunk, getCarsThunk, updateCarThunk} from './operations';
 
 interface IState {
     items: ICar[];
@@ -41,17 +41,27 @@ const carSlice = createSlice({
             // pending
             .addCase(getCarsThunk.pending, handlePending)
             .addCase(createCarThunk.pending, handlePending)
+            .addCase(updateCarThunk.pending, handlePending)
+            .addCase(deleteCarThunk.pending, handlePending)
             // fulfilled
-            .addCase(getCarsThunk.fulfilled, (state, action: PayloadAction<ICar[]>) => {
+            .addCase(getCarsThunk.fulfilled, (state, action) => {
                 state.loading = false;
                 state.items = action.payload;
             })
             .addCase(createCarThunk.fulfilled, state => {
                 state.trigger = !state.trigger;
             })
+            .addCase(updateCarThunk.fulfilled, state => {
+                state.trigger = !state.trigger;
+            })
+            .addCase(deleteCarThunk.fulfilled, state => {
+                state.trigger = !state.trigger;
+            })
             // rejected
             .addCase(getCarsThunk.rejected, handleRejected)
-            .addCase(createCarThunk.rejected, handleRejected);
+            .addCase(createCarThunk.rejected, handleRejected)
+            .addCase(updateCarThunk.rejected, handleRejected)
+            .addCase(deleteCarThunk.rejected, handleRejected);
     },
 });
 
